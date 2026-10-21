@@ -12,14 +12,17 @@ const descriptions = {
   butterscotch: 'Chocolate meets golden butterscotch pieces for a sweet, satisfying crunch. A little texture in every indulgent bite.',
   'choco-crunch': 'A chocolate favourite with a crisp, crunchy texture. Made for anyone who likes a little extra bite with their chocolate.'
 };
-const products = Object.fromEntries(cards.map(card => [card.dataset.id, {
+const baseProducts = Object.fromEntries(cards.map(card => [card.dataset.id, {
   id: card.dataset.id,
   name: card.querySelector('h3').textContent,
   category: categories[card.dataset.type],
   price: Number(card.dataset.price),
+  price400: Number(card.dataset.price400 || 0),
   image: card.querySelector('img').getAttribute('src'),
+  image400: `${card.querySelector('h3').textContent} 400.png`,
   description: descriptions[card.dataset.id]
 }]));
+const products = Object.fromEntries(Object.entries(baseProducts).flatMap(([id, product]) => [[id, { ...product, id, weight: 200 }], [`${id}-400`, { ...product, id: `${id}-400`, baseId: id, weight: 400, price: product.price400, image: product.image400 }]]));
 const currency = value => `₹${value.toLocaleString('en-IN')}`;
 const tray = {};
 const storageKey = 'chocoluxe-tasting-tray-v1';
@@ -70,6 +73,10 @@ function applyCollection() {
 }
 
 function openProduct(card) {
+  window.location.href = `product.html?id=${encodeURIComponent(card.dataset.id)}&weight=200`;
+}
+
+function openProductDialogLegacy(card) {
   currentProduct = products[card.dataset.id];
   quantity = 1;
   $('#modalImage').src = currentProduct.image;
@@ -115,7 +122,7 @@ function renderTray() {
     const title = document.createElement('h3');
     title.textContent = product.name;
     const price = document.createElement('p');
-    price.textContent = `${currency(product.price)} / box`;
+    price.textContent = `${currency(product.price)} / ${product.weight}g box`;
     const controls = document.createElement('div');
     controls.className = 'qty';
     const decrease = createQuantityButton(`Decrease ${product.name} boxes`, '−', () => changeTray(id, -1));
@@ -150,7 +157,7 @@ function renderTray() {
   $('#traySubtotal').textContent = currency(totals.price);
   $('#whatsappOrder').hidden = totals.count === 0;
   const lines = Object.entries(tray).map(([id, count]) =>
-    `${count} x ${products[id].name} — ${currency(products[id].price)} per box = ${currency(products[id].price * count)}`);
+    `${count} x ${products[id].name} ${products[id].weight}g — ${currency(products[id].price)} per box = ${currency(products[id].price * count)}`);
   const message = ['Hello ChocoLuxe, I would like to enquire about this selection:', '', ...lines, '',
     `Total: ${totals.count} boxes`, `Wholesale product subtotal: ${currency(totals.price)}`,
     'Please confirm availability, delivery and packaging options.'].join('\n');
@@ -211,7 +218,7 @@ function addSelection(id, count) {
   if (!products[id] || !Number.isSafeInteger(count) || count < 1 || (tray[id] || 0) + count > 999) return;
   tray[id] = (tray[id] || 0) + count;
   updateTray();
-  $('#toastMessage').textContent = `${count} × ${products[id].name} added to your tray`;
+  $('#toastMessage').textContent = `${count} × ${products[id].name} ${products[id].weight}g added to your tray`;
   $('#trayToast').hidden = false;
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => { $('#trayToast').hidden = true; }, 4500);
@@ -244,7 +251,7 @@ function selectMood(mood) {
     const name = document.createElement('strong');
     name.textContent = product.name;
     const price = document.createElement('small');
-    price.textContent = `${currency(product.price)} / box`;
+    price.textContent = `${currency(product.price)} / ${product.weight}g box`;
     copy.append(name, price);
     const arrow = document.createElement('span');
     arrow.textContent = '↗';
