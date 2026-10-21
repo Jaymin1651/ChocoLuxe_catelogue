@@ -2,9 +2,9 @@
 const params=new URLSearchParams(window.location.search);
 const productId=params.get('id')||'milk';let weight=Number(params.get('weight'))===400?400:200;let quantity=1;
 const catalog={
- milk:{name:'Milk Chocolate',category:'Cocoa Classics',price200:130,price400:328,image200:'milk.png',image400Stem:'Milk 400',description:'Creamy, mellow and instantly likeable. An easy favourite for sharing and thoughtful gifts.'},
- dark:{name:'Dark Chocolate',category:'Cocoa Classics',price200:139,price400:364,image200:'dark.png',image400Stem:'Dark 400',description:'Smooth, deep and beautifully balanced. A timeless cocoa character for a richer bite.'},
- 'extra-dark':{name:'Extra Dark',category:'Cocoa Classics',price200:155,price400:308,image200:'extra dark.png',image400Stem:'Extra Dark 400',description:'A bold, intense cocoa character with a lingering finish for devoted chocolate lovers.'},
+ milk:{name:'Milk Chocolate',category:'Cocoa Classics',price200:130,price400:308,image200:'milk.png',image400Stem:'Milk 400',description:'Creamy, mellow and instantly likeable. An easy favourite for sharing and thoughtful gifts.'},
+ dark:{name:'Dark Chocolate',category:'Cocoa Classics',price200:139,price400:328,image200:'dark.png',image400Stem:'Dark 400',description:'Smooth, deep and beautifully balanced. A timeless cocoa character for a richer bite.'},
+ 'extra-dark':{name:'Extra Dark',category:'Cocoa Classics',price200:155,price400:364,image200:'extra dark.png',image400Stem:'Extra Dark 400',description:'A bold, intense cocoa character with a lingering finish for devoted chocolate lovers.'},
  fusion:{name:'Fusion Bite',category:'Signature Flavours',price200:130,price400:308,image200:'fusion bite.png',image400Stem:'Fusion Bite 400',description:'A hand-marbled swirl of bold and creamy chocolate with a playful bite.'},
  paan:{name:'Paan Chocolate',category:'Signature Flavours',price200:140,price400:332,image200:'pan.jpg',image400Stem:'paan 400',description:'A familiar paan-inspired flavour in a playful chocolate form.'},
  butterscotch:{name:'Butterscotch',category:'Crunch Collection',price200:135,price400:312,image200:'butterscoch.png',image400Stem:'Butterscotch 400',description:'Chocolate meets golden butterscotch pieces for a sweet, satisfying crunch.'},
