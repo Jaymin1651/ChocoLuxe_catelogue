@@ -117,7 +117,14 @@ function renderTray() {
     item.className = 'tray-item';
     const image = document.createElement('img');
     image.src = product.image;
-    image.alt = product.name;
+    if (product.weight === 400) {
+      const extensions = ['.jpg', '.jpeg', '.webp', '.PNG', '.JPG'];
+      let fallbackIndex = 0;
+      image.addEventListener('error', () => {
+        if (fallbackIndex < extensions.length) image.src = product.image.replace(/\\.(png|jpg|jpeg|webp)$/i, extensions[fallbackIndex++]);
+      });
+    }
+    image.alt = product.name + ' ' + product.weight + 'g';
     const info = document.createElement('div');
     const title = document.createElement('h3');
     title.textContent = product.name;
