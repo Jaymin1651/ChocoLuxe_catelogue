@@ -17,7 +17,7 @@ const baseProducts = Object.fromEntries(cards.map(card => [card.dataset.id, {
   name: card.querySelector('h3').textContent,
   category: categories[card.dataset.type],
   price: Number(card.dataset.price),
-  price400: Number(card.dataset.price400 || 0),
+  price400: Number(card.dataset['price-400'] || 0),
   image: card.querySelector('img').getAttribute('src'),
   image400: ({ milk: 'milk 400.png', dark: 'Dark 400.png', 'extra-dark': 'Extra dark 400.png', fusion: 'fusion 400.png', paan: 'Pan 400.png', butterscotch: 'butter scoch 400.png', 'choco-crunch': 'choco crunch 400.png' })[card.dataset.id],
   description: descriptions[card.dataset.id]
