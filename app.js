@@ -19,7 +19,7 @@ const baseProducts = Object.fromEntries(cards.map(card => [card.dataset.id, {
   price: Number(card.dataset.price),
   price400: Number(card.dataset.price400 || 0),
   image: card.querySelector('img').getAttribute('src'),
-  image400: `${card.querySelector('h3').textContent} 400.png`,
+  image400: ({ milk: 'Milk 400.png', dark: 'Dark 400.png', 'extra-dark': 'Extra Dark 400.png', fusion: 'Fusion Bite 400.png', paan: 'paan 400.png', butterscotch: 'Butterscotch 400.png', 'choco-crunch': 'choco crunch 400.png' })[card.dataset.id],
   description: descriptions[card.dataset.id]
 }]));
 const products = Object.fromEntries(Object.entries(baseProducts).flatMap(([id, product]) => [[id, { ...product, id, weight: 200 }], [`${id}-400`, { ...product, id: `${id}-400`, baseId: id, weight: 400, price: product.price400, image: product.image400 }]]));
